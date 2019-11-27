@@ -1,16 +1,19 @@
 let getUserInfoByUserToken = require('../communicateWithOtherServer/getUserInfoByUserTOken');
 let Procedure = require('../model/procedureClass');
 
-async function updateProcedure(request, response) {
+async function editProcedureInfo(request, response) {
     if (request.body.procedureName === undefined) {
+        console.log(1);
         response.status(400).send("Procedure Name Required");
         return null;
     }
-    if (request.body.procedure === undefined) {
+    if (request.body.procedureInfo === undefined) {
+        console.log(2);
         response.status(400).send("Procedure Required");
         return null;
     }
     if (request.body.userToken === undefined) {
+        console.log(3);
         response.status(400).send("User Token Required");
         return null;
     }
@@ -36,14 +39,26 @@ async function updateProcedure(request, response) {
         return null;
     }
     let userID = userInfo.id;
-    console.log(getProcedureResult);
-    if (!(getProcedureResult["owner"].includes(userID) || getProcedureResult["admin"].includes(userID))) {
+    if (!(getProcedureResult["owner"].includes(userID))) {
         response.send("0");
         return null;
     }
-    getProcedureResult["procedure"].push(request.body.procedure);
+    let updateProcedureBody = {
+        procedureName: null,
+        public: null,
+        metaData: null
+    };
+    if (request.body.procedureInfo.procedureName !== undefined) {
+        updateProcedureBody["procedureName"] = request.body.procedureInfo.procedureName;
+    } else {}
+    if (request.body.procedureInfo.public !== undefined) {
+        updateProcedureBody["public"] = request.body.procedureInfo.public;
+    }
+    if (request.body.procedureInfo.metaData !== undefined) {
+        updateProcedureBody["metaData"] = request.body.procedureInfo.metaData;
+    }
 
-    let editResult = await procedure.editProcedureByName(request.body.procedureName, null, getProcedureResult["procedure"], null, null, null, null);
+    let editResult = await procedure.editProcedureByName(request.body.procedureName, updateProcedureBody.procedureName, null, updateProcedureBody.public, updateProcedureBody.metaData, null, null);
     if (editResult.result.ok !== 1) {
         response.status(500).send("Server Error");
         return null;
@@ -55,4 +70,4 @@ async function updateProcedure(request, response) {
 
 }
 
-module.exports = updateProcedure;
+module.exports = editProcedureInfo;

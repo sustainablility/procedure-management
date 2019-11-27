@@ -24,7 +24,7 @@ describe('Model Test',function () {
     it('Procedure Adding test', function () {
         (
             async function() {
-                let addingResult = await procedure.putNewProcedure(testProcedureName, "", testProcedurePublicity, testProcedureMetaData, testProcedureOwner, testProcedureAdmin);
+                let addingResult = await procedure.putNewProcedure(testProcedureName, [], testProcedurePublicity, testProcedureMetaData, testProcedureOwner, testProcedureAdmin);
                 assert.strictEqual(addingResult.result.ok,1,"Insert Procedure Error");
             }
         )();
@@ -43,7 +43,7 @@ describe('Model Test',function () {
     it('Edit Procedure', function (done) {
         (
             async function() {
-                let editResult = await procedure.editProcedureByName(testProcedureName, null, testProcedure, null, null, null, null);
+                let editResult = await procedure.editProcedureByName(testProcedureName, null, [testProcedure], null, null, null, null);
                 assert.strictEqual(editResult.result.ok,1,"Edit procedure Error");
                 done();
             }

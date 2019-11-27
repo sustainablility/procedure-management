@@ -1,4 +1,4 @@
-let testUserToken = "lji8wkbovlhjcbilimjgt";
+let testUserToken = "yjk12rp45ghz5a1yp8jyv";
 let assert = require('chai').assert;
 
 let testDataSetTokenResultId = "github15046218";
