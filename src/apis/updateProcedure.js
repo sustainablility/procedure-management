@@ -21,6 +21,7 @@ async function updateProcedure(request, response) {
         return null;
     }
     if (userInfo === "") {
+        console.log("Get user info failed");
         response.send("0");
         return null;
     }
@@ -32,12 +33,13 @@ async function updateProcedure(request, response) {
     }
     let getProcedureResult = await procedure.getProcedureByName(request.body.procedureName);
     if (getProcedureResult === null) {
+        console.log("Get procedure failed");
         response.send("0");
         return null;
     }
     let userID = userInfo.id;
-    console.log(getProcedureResult);
     if (!(getProcedureResult["owner"].includes(userID) || getProcedureResult["admin"].includes(userID))) {
+        console.log("Not allow to edit procedure");
         response.send("0");
         return null;
     }
